@@ -1,4 +1,15 @@
-console.log("🌟 Three.jsの初期化開始");
+// ログ表示関数
+function logMessage(message, isError = false) {
+  const logBox = document.getElementById('log');
+  const line = document.createElement('div');
+  const time = new Date().toLocaleTimeString();
+  line.textContent = `[${time}] ${message}`;
+  if (isError) line.style.color = '#f88';
+  logBox.appendChild(line);
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+logMessage("🌟 Three.jsの初期化開始");
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -7,7 +18,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x202020);
 document.body.appendChild(renderer.domElement);
 
-console.log("✅ Three.jsの初期化完了");
+logMessage("✅ Three.jsの初期化完了");
 
 const clock = new THREE.Clock();
 let mixer;
@@ -18,10 +29,10 @@ let isJumping = false;
 let jumpVelocity = 0;
 
 const loader = new THREE.FBXLoader();
-console.log("📦 FBXLoader 初期化完了");
+logMessage("📦 FBXLoader 初期化完了");
 
 loader.load('/models/character.fbx', (object) => {
-  console.log("🎉 モデル読み込み成功: character.fbx");
+  logMessage("🎉 モデル読み込み成功: character.fbx");
   player = object;
   scene.add(player);
   mixer = new THREE.AnimationMixer(player);
@@ -29,9 +40,10 @@ loader.load('/models/character.fbx', (object) => {
   camera.lookAt(player.position);
   loadAnimations();
 }, (xhr) => {
-  console.log(`📡 モデル読み込み中: ${(xhr.loaded / xhr.total * 100).toFixed(2)}%`);
+  logMessage(`📡 モデル読み込み中: ${(xhr.loaded / xhr.total * 100).toFixed(2)}%`);
 }, (error) => {
-  console.error("❌ モデル読み込み失敗:", error);
+  logMessage("❌ モデル読み込み失敗: character.fbx", true);
+  console.error(error);
 });
 
 function loadAnimations() {
@@ -39,10 +51,11 @@ function loadAnimations() {
   animFiles.forEach(name => {
     loader.load(`/models/${name}.fbx`, (anim) => {
       animations[name] = mixer.clipAction(anim.animations[0]);
-      console.log(`✅ アニメーション読み込み成功: ${name}.fbx`);
+      logMessage(`✅ アニメーション読み込み成功: ${name}.fbx`);
       if (name === 'idle') playAnimation('idle');
     }, undefined, (error) => {
-      console.error(`❌ アニメーション読み込み失敗: ${name}.fbx`, error);
+      logMessage(`❌ アニメーション読み込み失敗: ${name}.fbx`, true);
+      console.error(error);
     });
   });
 }
