@@ -36,10 +36,9 @@ try {
     (object) => {
       logMessage("🎉 モデル読み込み成功: character.fbx");
 
-      // 🔍 FBXの中身を確認！
-      console.log("🌊 FBXオブジェクトの中身:", object);
-      console.log("📊 object.animations:", object.animations);
-      console.log("📦 object.children:", object.children);
+      // 🔍 中身を画面ログに表示！
+      logMessage(`📊 character.fbx のアニメーション数: ${object.animations.length}`);
+      logMessage(`📦 character.fbx の子要素数: ${object.children.length}`);
 
       player = object;
       scene.add(player);
