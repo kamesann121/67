@@ -6,9 +6,26 @@
   <style>
     body { margin: 0; overflow: hidden; }
     canvas { display: block; }
+
+    #log {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #0ff;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      max-height: 300px;
+      overflow-y: auto;
+      border-radius: 5px;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
+  <div id="log"></div>
+
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
   <script src="/libs/inflate.min.js"></script>
   <script src="/libs/FBXLoader.js"></script>
