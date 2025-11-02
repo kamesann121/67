@@ -32,7 +32,7 @@ try {
   const loader = new THREE.FBXLoader();
   logMessage("📦 FBXLoader 初期化完了");
 
-  loader.load('/models/character.fbx',
+  loader.load('models/character.fbx',
     (object) => {
       logMessage("🎉 モデル読み込み成功: character.fbx");
       player = object;
@@ -54,7 +54,7 @@ try {
   function loadAnimations() {
     const animFiles = ['idle', 'walk', 'backward', 'left', 'right', 'jump'];
     animFiles.forEach(name => {
-      loader.load(`/models/${name}.fbx`,
+      loader.load(`models/${name}.fbx`,
         (anim) => {
           animations[name] = mixer.clipAction(anim.animations[0]);
           logMessage(`✅ アニメーション読み込み成功: ${name}.fbx`);
