@@ -1,9 +1,13 @@
+console.log("🌟 Three.jsの初期化開始");
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x202020);
 document.body.appendChild(renderer.domElement);
+
+console.log("✅ Three.jsの初期化完了");
 
 const clock = new THREE.Clock();
 let mixer;
@@ -14,13 +18,20 @@ let isJumping = false;
 let jumpVelocity = 0;
 
 const loader = new THREE.FBXLoader();
+console.log("📦 FBXLoader 初期化完了");
+
 loader.load('/models/character.fbx', (object) => {
+  console.log("🎉 モデル読み込み成功: character.fbx");
   player = object;
   scene.add(player);
   mixer = new THREE.AnimationMixer(player);
   camera.position.set(0, 5, -10);
   camera.lookAt(player.position);
   loadAnimations();
+}, (xhr) => {
+  console.log(`📡 モデル読み込み中: ${(xhr.loaded / xhr.total * 100).toFixed(2)}%`);
+}, (error) => {
+  console.error("❌ モデル読み込み失敗:", error);
 });
 
 function loadAnimations() {
@@ -28,7 +39,10 @@ function loadAnimations() {
   animFiles.forEach(name => {
     loader.load(`/models/${name}.fbx`, (anim) => {
       animations[name] = mixer.clipAction(anim.animations[0]);
+      console.log(`✅ アニメーション読み込み成功: ${name}.fbx`);
       if (name === 'idle') playAnimation('idle');
+    }, undefined, (error) => {
+      console.error(`❌ アニメーション読み込み失敗: ${name}.fbx`, error);
     });
   });
 }
@@ -47,7 +61,7 @@ document.addEventListener('keydown', (event) => {
     case 's': player.position.z += 0.5; playAnimation('backward'); break;
     case 'q': player.position.x -= 0.5; playAnimation('left'); break;
     case 'c': player.position.x += 0.5; playAnimation('right'); break;
-    case ' ': 
+    case ' ':
       if (!isJumping) {
         isJumping = true;
         jumpVelocity = 0.2;
