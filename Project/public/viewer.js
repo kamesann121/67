@@ -56,6 +56,7 @@ try {
     animFiles.forEach(name => {
       loader.load(`models/${name}.fbx`,
         (anim) => {
+          logMessage(`📊 ${name}.fbx のアニメーション数: ${anim.animations.length}`);
           if (anim.animations.length > 0) {
             animations[name] = mixer.clipAction(anim.animations[0]);
             logMessage(`✅ アニメーション読み込み成功: ${name}.fbx`);
