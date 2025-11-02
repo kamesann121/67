@@ -35,6 +35,12 @@ try {
   loader.load('models/character.fbx',
     (object) => {
       logMessage("🎉 モデル読み込み成功: character.fbx");
+
+      // 🔍 FBXの中身を確認！
+      console.log("🌊 FBXオブジェクトの中身:", object);
+      console.log("📊 object.animations:", object.animations);
+      console.log("📦 object.children:", object.children);
+
       player = object;
       scene.add(player);
       mixer = new THREE.AnimationMixer(player);
