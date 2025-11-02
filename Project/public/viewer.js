@@ -56,9 +56,13 @@ try {
     animFiles.forEach(name => {
       loader.load(`models/${name}.fbx`,
         (anim) => {
-          animations[name] = mixer.clipAction(anim.animations[0]);
-          logMessage(`✅ アニメーション読み込み成功: ${name}.fbx`);
-          if (name === 'idle') playAnimation('idle');
+          if (anim.animations.length > 0) {
+            animations[name] = mixer.clipAction(anim.animations[0]);
+            logMessage(`✅ アニメーション読み込み成功: ${name}.fbx`);
+            if (name === 'idle') playAnimation('idle');
+          } else {
+            logMessage(`⚠️ アニメーションが見つかりません: ${name}.fbx`, true);
+          }
         },
         undefined,
         (error) => {
